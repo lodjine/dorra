@@ -31,6 +31,6 @@ public final class Factory {
      */
     public static ias.Terminal getTerminal() {
         // placeholder
-        return null;
+        return new TerminalImpl();
     }
 }
