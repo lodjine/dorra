@@ -36,10 +36,14 @@ public class Board {
     }
 
     public void placeItem(int x, int y, Item item) {
+        if (this.board[x][y] == null)
+            this.board[x][y] = new FieldObjects();
         this.board[x][y].getObjects().put(item.getId(), item);
     }
 
     public void placeBoardObject(int x, int y, BoardObject boardObject) {
+        if (this.board[x][y] == null)
+            this.board[x][y] = new FieldObjects();
         this.board[x][y].getObjects().put(boardObject.getId(), boardObject);
     }
 

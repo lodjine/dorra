@@ -25,6 +25,7 @@ public class Adventure implements TextAdventure {
         this.name = name;
         this.boardWidth = boardWidth;
         this.boardHeight = boardHeight;
+        this.player = new PlayerImpl(this.boardWidth, this.boardHeight);
 
     }
 
@@ -140,7 +141,7 @@ public class Adventure implements TextAdventure {
 
     @Override
     public Player startGame(int x, int y) throws TextAdventureException {
-        this.player = new PlayerImpl(x, y, this.boardWidth, this.boardHeight);
+        this.player.startGame(x, y);
         return this.player;
     }
 

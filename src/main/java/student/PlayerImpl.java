@@ -22,11 +22,14 @@ public class PlayerImpl implements Player {
 
     private Board board;
 
-    public PlayerImpl(int posX, int posY, int boardWidth, int boardHeight) {
+    public PlayerImpl(int boardWidth, int boardHeight) {
         super();
+        board = new Board(boardWidth, boardHeight);
+    }
+
+    public void startGame(int posX, int posY) {
         this.posX = posX;
         this.posY = posY;
-        board = new Board(boardWidth, boardHeight);
     }
 
     @Override

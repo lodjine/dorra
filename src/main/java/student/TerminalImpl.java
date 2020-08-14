@@ -11,6 +11,9 @@ public class TerminalImpl implements Terminal {
 
     @Override
     public void promptInput(String input) {
+        if (input.contains("Play ("))
+            input = input.substring("Play".length() + 2, input.length() - 1);
+        input = input.replaceAll("\\|", " ");
         this.input = input;
 
     }
