@@ -47,12 +47,12 @@ public class PlayerImpl implements Player {
     @Override
     public String[] look() {
         List<String> result = new ArrayList<>();
-        for (int i = 0; i < posX; i++) {
+        for (int i = 0; i < board.getBoardWidth(); i++) {
 
-            for (int y = 0; y < posY; y++) {
+            for (int y = 0; y < board.getBoardHeight(); y++) {
                 List<BoardObject> list = new ArrayList<>();
                 if (board.getBoard()[i][y] != null && !board.getBoard()[i][y].getObjects().isEmpty())
-                    list = (List<BoardObject>) board.getBoard()[i][y].getObjects().values();
+                    list = new ArrayList<>(board.getBoard()[i][y].getObjects().values());
                 for (BoardObject boardObject : list) {
                     result.add(boardObject.getId() + "-" + boardObject.getDescription());
                 }
@@ -66,7 +66,7 @@ public class PlayerImpl implements Player {
     @Override
     public String[] inventory() {
         List<String> result = new ArrayList<>();
-        List<Item> list = (List<Item>) board.getInventery().values();
+        List<Item> list = new ArrayList<>(board.getInventery().values());
         for (Item item : list) {
             result.add(item.getId() + "-" + item.getDescription());
         }

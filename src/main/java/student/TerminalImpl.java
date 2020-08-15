@@ -3,6 +3,8 @@
  */
 package student;
 
+import java.util.Scanner;
+
 import ias.Terminal;
 
 public class TerminalImpl implements Terminal {
@@ -11,10 +13,16 @@ public class TerminalImpl implements Terminal {
 
     @Override
     public void promptInput(String input) {
-        if (input.contains("Play ("))
+        if (input.contains("Play (")) {
             input = input.substring("Play".length() + 2, input.length() - 1);
-        input = input.replaceAll("\\|", " ");
-        this.input = input;
+            input = input.replaceAll("\\|", " ");
+            this.input = input;
+        }
+        if (input.contains("play>")) {
+            Scanner sc = new Scanner(System.in);
+            System.out.println("choose an action :");
+            this.input = sc.nextLine();
+        }
 
     }
 
