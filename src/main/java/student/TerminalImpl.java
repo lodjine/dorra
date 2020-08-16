@@ -20,7 +20,7 @@ public class TerminalImpl implements Terminal {
         }
         if (input.contains("play>")) {
             Scanner sc = new Scanner(System.in);
-            System.out.println("choose an action :");
+            System.out.println(input);
             this.input = sc.nextLine();
         }
 

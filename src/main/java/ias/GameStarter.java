@@ -14,6 +14,7 @@ public class GameStarter {
 
     /**
      * Constructor to create a GameStarter instance.
+     * 
      * @param games array with text adventures games to play
      */
     public GameStarter(TextAdventure[] games) {
@@ -37,7 +38,6 @@ public class GameStarter {
             input = terminal.readInput();
         } while (input[0].equals("") || input[0].equals(" "));
 
-
         String gameName = input[0];
         for (TextAdventure game : this.games) {
             if (game.getName().equals(gameName)) {
@@ -48,11 +48,11 @@ public class GameStarter {
         System.out.println("Unknown game scenario");
         System.exit(1);
 
-
     }
 
     /**
      * Starts a given game and runs a simple input-loop that accepts game-commands.
+     * 
      * @param textAdventure to play
      * @param x coordinate of the player
      * @param y coordinate of the player
@@ -76,80 +76,80 @@ public class GameStarter {
         }
     }
 
-
     /**
      * Process the given command-line, translate it into player-actions if possible.
+     * 
      * @param input the splitted user input
      * @return false if the user wants to quit, true otherwise
      * @throws TextAdventureException If an invalid command is entered
      */
     private static boolean processInput(String[] input) throws TextAdventureException {
         switch (input[0]) {
-            case "go": {
-                if (input.length < 2) {
-                    System.out.println("Sorry, please specify a direction.");
-                } else {
-                    System.out.println(player.go(input[1]));
-                }
-                return true;
+        case "go": {
+            if (input.length < 2) {
+                System.out.println("Sorry, please specify a direction.");
+            } else {
+                System.out.println(player.go(input[1]));
             }
-            case "look": {
-                String[] list = player.look();
-                for (String line : list) {
-                    System.out.println(line);
-                }
-                return true;
+            return true;
+        }
+        case "look": {
+            String[] list = player.look();
+            for (String line : list) {
+                System.out.println(line);
             }
-            case "inventory": {
-                String[] list = player.inventory();
-                for (String line : list) {
-                    System.out.println(line);
-                }
-                return true;
+            return true;
+        }
+        case "inventory": {
+            String[] list = player.inventory();
+            for (String line : list) {
+                System.out.println(line);
             }
-            case "take": {
-                if (input.length < 2) {
-                    System.out.println("Sorry, please specify an object.");
-                } else {
-                    System.out.println(player.take(input[1]));
-                }
-                return true;
+            return true;
+        }
+        case "take": {
+            if (input.length < 2) {
+                System.out.println("Sorry, please specify an object.");
+            } else {
+                System.out.println(player.take(input[1]));
             }
-            case "drop": {
-                if (input.length < 2) {
-                    System.out.println("Sorry, please specify an object.");
-                } else {
-                    System.out.println(player.drop(input[1]));
-                }
-                return true;
+            return true;
+        }
+        case "drop": {
+            if (input.length < 2) {
+                System.out.println("Sorry, please specify an object.");
+            } else {
+                System.out.println(player.drop(input[1]));
             }
-            case "convert": {
-                if (input.length < 3) {
-                    System.out.println("Sorry, please specify the objects to compose.");
-                } else {
-                    System.out.println(player.convert(input[1], input[2]));
-                }
-                return true;
+            return true;
+        }
+        case "convert": {
+            if (input.length < 3) {
+                System.out.println("Sorry, please specify the objects to compose.");
+            } else {
+                System.out.println(player.convert(input[1], input[2]));
             }
-            case "decompose": {
-                if (input.length < 2) {
-                    System.out.println("Sorry, please specify an object.");
-                } else {
-                    System.out.println(player.decompose(input[1]));
-                }
-                return true;
+            return true;
+        }
+        case "decompose": {
+            if (input.length < 2) {
+                System.out.println("Sorry, please specify an object.");
+            } else {
+                System.out.println(player.decompose(input[1]));
             }
-            case "help": {
-                System.out.println("Valid Commands are: go, look, inventory, take, drop, compose, decompose");
-                return true;
-            }
-            case "exit": {
-                System.out.println("Bye!");
-                return false;
-            }
-            default: {
-                throw new TextAdventureException("Unknown Command: " + input[0]);
-            }
+            return true;
+        }
+        case "help": {
+            System.out.println("Valid Commands are: go, look, inventory, take, drop, compose, decompose, convert");
+            return true;
+        }
+        case "exit": {
+            System.out.println("Bye!");
+            return false;
+        }
+        default: {
+            throw new TextAdventureException("Unknown Command: " + input[0]);
+        }
         }
     }
 }

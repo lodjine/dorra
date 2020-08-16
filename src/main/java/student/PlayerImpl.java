@@ -269,6 +269,7 @@ public class PlayerImpl implements Player {
             break;
 
         default:
+            System.out.println("wrong direction");
             break;
         }
 
