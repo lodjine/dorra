@@ -31,6 +31,8 @@ public class Adventure implements TextAdventure {
 
     @Override
     public void addItemType(String id, String description) throws TextAdventureException {
+        if (!id.matches("[a-zA-Z ]*"))
+            throw new TextAdventureException("id must contain only letters  ");
         if (player.getBoard().getSceneryTypes().get(id) != null || player.getBoard().getItemTypes().get(id) != null)
             throw new TextAdventureException("this object is allready exist");
         player.getBoard().getItemTypes().put(id, new Item(id, description));
@@ -56,6 +58,8 @@ public class Adventure implements TextAdventure {
 
     @Override
     public void addComposition(String in1, String in2, String out, String description) throws TextAdventureException {
+        if (in1 == null || in2 == null || out == null || description == null)
+            throw new TextAdventureException("one of transformation variable is null");
 
         BoardObject obin1 = null;
         BoardObject obin2 = null;
@@ -82,6 +86,8 @@ public class Adventure implements TextAdventure {
 
     @Override
     public void addDecomposition(String in, String out1, String out2, String description) throws TextAdventureException {
+        if (in == null || out1 == null || out2 == null || description == null)
+            throw new TextAdventureException("one of transformation variable is null");
         BoardObject obIn = null;
         BoardObject obOut2 = null;
         BoardObject obOut1 = null;
@@ -109,6 +115,8 @@ public class Adventure implements TextAdventure {
 
     @Override
     public void addTransformation(String in1, String in2, String out1, String out2, String description) throws TextAdventureException {
+        if (in1 == null || in2 == null || out1 == null || out2 == null || description == null)
+            throw new TextAdventureException("one of transformation variable is null");
         BoardObject obIn1 = null;
         BoardObject obIn2 = null;
         BoardObject obOut2 = null;

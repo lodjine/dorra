@@ -4,7 +4,9 @@
 package student;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import ias.Player;
 import ias.TextAdventureException;
@@ -34,14 +36,7 @@ public class PlayerImpl implements Player {
 
     @Override
     public String go(String direction) {
-        String result = null;
-        try {
-            result = resolveCoor(direction);
-        } catch (TextAdventureException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        return result;
+        return resolveCoor(direction);
     }
 
     @Override
@@ -54,7 +49,7 @@ public class PlayerImpl implements Player {
                 if (board.getBoard()[i][y] != null && !board.getBoard()[i][y].getObjects().isEmpty())
                     list = new ArrayList<>(board.getBoard()[i][y].getObjects().values());
                 for (BoardObject boardObject : list) {
-                    result.add(boardObject.getId() + "-" + boardObject.getDescription());
+                    result.add(boardObject.getId() + " - " + boardObject.getDescription());
                 }
 
             }
@@ -68,43 +63,31 @@ public class PlayerImpl implements Player {
         List<String> result = new ArrayList<>();
         List<Item> list = new ArrayList<>(board.getInventery().values());
         for (Item item : list) {
-            result.add(item.getId() + "-" + item.getDescription());
+            result.add(item.getId() + " - " + item.getDescription());
         }
         return result.toArray(new String[result.size()]);
     }
 
     @Override
     public String take(String item) {
-        if (board.getBoard()[posX][posY].getObjects().get(item) != null) {
+        if (board.getBoard() != null && board.getBoard()[posX][posY] != null && board.getBoard()[posX][posY].getObjects() != null
+                && board.getBoard()[posX][posY].getObjects().get(item) != null) {
             if (board.getBoard()[posX][posY].getObjects().get(item) instanceof Item)
                 board.getInventery().put(item, (Item) board.getBoard()[posX][posY].getObjects().get(item));
-            return " You pick up the " + item;
+            return "You pick up the " + item;
 
         }
-        try {
-            throw new TextAdventureException("Sorry you cannot pick up the " + item);
-        } catch (TextAdventureException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        return null;
+        return ("Sorry, you cannot pick up the " + item);
     }
 
     @Override
     public String drop(String item) {
         if (board.getInventery().containsKey(item)) {
             board.getInventery().remove(item);
-            return " You drop the " + item;
+            return "You drop the " + item;
         }
 
-        try {
-            throw new TextAdventureException("Sorry you cannot drop the " + item);
-        } catch (TextAdventureException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-
-        return null;
+        return ("Sorry, you cannot drop the " + item);
     }
 
     @Override
@@ -206,74 +189,88 @@ public class PlayerImpl implements Player {
         return board;
     }
 
-    private String resolveCoor(String dir) throws TextAdventureException {
+    private static Map<String, String> direction = new HashMap<>();
+
+    static {
+        direction.put("NW", "northwest");
+        direction.put("N", "nort");
+
+        direction.put("NE", "northeast");
+
+        direction.put("E", "east");
+
+        direction.put("SE", "southeast");
+
+        direction.put("SW", "southwest");
+
+        direction.put("W", "west");
+
+        direction.put("S", "south");
+
+    }
+
+    private String resolveCoor(String dir) {
+        if (dir == null)
+            return ("Sorry, cannot move to this direction");
         switch (dir) {
-        case "northwest":
+        case "NW":
             if (this.posX == 0 || this.posY == 0)
-                throw new TextAdventureException("cannot move to this direction");
+                return ("Sorry, cannot move to this direction");
             this.posX = this.posX - 1;
             this.posY = this.posY - 1;
+            System.out.println("X : " + posX + " Y : " + posY);
+            return "You go " + direction.get(dir);
 
-            break;
-
-        case "north":
+        case "N":
             if (this.posY == 0)
-                throw new TextAdventureException("cannot move to this direction");
+                return ("Sorry, cannot move to this direction");
             this.posY = this.posY - 1;
-
-            break;
-
-        case "northeast":
-            if (this.posX == this.board.getBoardWidth() || this.posY == 0)
-                throw new TextAdventureException("cannot move to this direction");
+            System.out.println("X : " + posX + " Y : " + posY);
+            return "You go " + direction.get(dir);
+        case "NE":
+            if (this.posX == this.board.getBoardWidth() - 1 || this.posY == 0)
+                return ("Sorry, cannot move to this direction");
             this.posX = this.posX + 1;
             this.posY = this.posY - 1;
-
-            break;
-
-        case "east":
-            if (this.posX == this.board.getBoardWidth())
-                throw new TextAdventureException("cannot move to this direction");
+            System.out.println("X : " + posX + " Y : " + posY);
+            return "You go " + direction.get(dir);
+        case "E":
+            if (this.posX == this.board.getBoardWidth() - 1)
+                return ("Sorry, cannot move to this direction");
             this.posX = this.posX + 1;
-
-            break;
-
-        case "southeast":
-            if (this.posX == this.board.getBoardWidth() || this.posY == this.board.getBoardHeight())
-                throw new TextAdventureException("cannot move to this direction");
+            System.out.println("X : " + posX + " Y : " + posY);
+            return "You go " + direction.get(dir);
+        case "SE":
+            if (this.posX == this.board.getBoardWidth() - 1 || this.posY == this.board.getBoardHeight() - 1)
+                return ("Sorry, cannot move to this direction");
             this.posX = this.posX + 1;
             this.posY = this.posY + 1;
-
-            break;
-
-        case "”south":
-            if (this.posY == this.board.getBoardHeight())
-                throw new TextAdventureException("cannot move to this direction");
+            System.out.println("X : " + posX + " Y : " + posY);
+            return "You go " + direction.get(dir);
+        case "S":
+            if (this.posY == this.board.getBoardHeight() - 1)
+                return ("Sorry, cannot move to this direction");
             this.posY = this.posY + 1;
-
-            break;
-
-        case "southwest":
-            if (this.posX == 0 || this.posY == this.board.getBoardHeight())
-                throw new TextAdventureException("cannot move to this direction");
-            this.posX = this.posX + 1;
-            this.posY = this.posY + 1;
-
-            break;
-
-        case "west":
-            if (this.posX == 0)
-                throw new TextAdventureException("cannot move to this direction");
+            System.out.println("X : " + posX + " Y : " + posY);
+            return "You go " + direction.get(dir);
+        case "SW":
+            if (this.posX == 0 || this.posY == this.board.getBoardHeight() - 1)
+                return ("Sorry, cannot move to this direction");
             this.posX = this.posX - 1;
-
-            break;
+            this.posY = this.posY + 1;
+            System.out.println("X : " + posX + " Y : " + posY);
+            return "You go " + direction.get(dir);
+        case "W":
+            if (this.posX == 0)
+                return ("Sorry, cannot move to this direction");
+            this.posX = this.posX - 1;
+            System.out.println("X : " + posX + " Y : " + posY);
+            return "You go " + direction.get(dir);
 
         default:
             System.out.println("wrong direction");
-            break;
+            return ("Sorry, cannot move to this direction");
         }
-
-        return "(" + posX + "," + posY + ")";
 
     }
 
