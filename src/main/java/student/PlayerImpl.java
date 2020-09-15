@@ -42,18 +42,11 @@ public class PlayerImpl implements Player {
     @Override
     public String[] look() {
         List<String> result = new ArrayList<>();
-        for (int i = 0; i < board.getBoardWidth(); i++) {
-
-            for (int y = 0; y < board.getBoardHeight(); y++) {
-                List<BoardObject> list = new ArrayList<>();
-                if (board.getBoard()[i][y] != null && !board.getBoard()[i][y].getObjects().isEmpty())
-                    list = new ArrayList<>(board.getBoard()[i][y].getObjects().values());
-                for (BoardObject boardObject : list) {
-                    result.add(boardObject.getId() + " - " + boardObject.getDescription());
-                }
-
-            }
-
+        List<BoardObject> list = new ArrayList<>();
+        if (board.getBoard()[posX][posY] != null && !board.getBoard()[posX][posY].getObjects().isEmpty())
+            list = new ArrayList<>(board.getBoard()[posX][posY].getObjects().values());
+        for (BoardObject boardObject : list) {
+            result.add(boardObject.getId() + " - " + boardObject.getDescription());
         }
         return result.toArray(new String[result.size()]);
     }
