@@ -105,22 +105,31 @@ public class PlayerImpl implements Player {
                 e.printStackTrace();
             }
         Composition comp = board.getCompositions().get(Composition.createId(object1, object2));
+        if (comp == null)
+            comp = board.getCompositions().get(Composition.createId(object2, object1));
         if (comp != null) {
             if (comp.getResult() instanceof Item)
                 board.getInventery().put(comp.getResult().getId(), (Item) comp.getResult());
             else
                 board.getBoard()[posX][posY].getObjects().put(comp.getResult().getId(), comp.getResult());
 
-            board.getInventery().remove(item1);
-            board.getInventery().remove(item2);
-            board.getBoard()[posX][posY].getObjects().remove(item1);
-            board.getBoard()[posX][posY].getObjects().remove(item2);
+            if (!comp.getResult().getId().equals(item1)) {
+                board.getInventery().remove(item1);
+                board.getBoard()[posX][posY].getObjects().remove(item1);
+
+            }
+            if (!comp.getResult().getId().equals(item2)) {
+                board.getInventery().remove(item2);
+                board.getBoard()[posX][posY].getObjects().remove(item2);
+            }
 
             return comp.getDescrip();
 
         }
 
         Transformation trans = board.getTransformation().get(Transformation.createId(object1, object2));
+        if (trans == null)
+            trans = board.getTransformation().get(Transformation.createId(object2, object1));
         if (trans != null) {
             if (trans.getResult1() instanceof Item)
                 board.getInventery().put(trans.getResult1().getId(), (Item) trans.getResult1());
@@ -132,10 +141,14 @@ public class PlayerImpl implements Player {
             else
                 board.getBoard()[posX][posY].getObjects().put(trans.getResult2().getId(), trans.getResult2());
 
-            board.getInventery().remove(item1);
-            board.getInventery().remove(item2);
-            board.getBoard()[posX][posY].getObjects().remove(item1);
-            board.getBoard()[posX][posY].getObjects().remove(item2);
+            if (!trans.getResult2().getId().equals(item1) && !trans.getResult1().getId().equals(item1)) {
+                board.getInventery().remove(item1);
+                board.getBoard()[posX][posY].getObjects().remove(item1);
+            }
+            if (!trans.getResult2().getId().equals(item2) && !trans.getResult1().getId().equals(item1)) {
+                board.getInventery().remove(item2);
+                board.getBoard()[posX][posY].getObjects().remove(item2);
+            }
 
             return trans.getDescrip();
 
